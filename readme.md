@@ -1,4 +1,4 @@
-﻿# SoftwaveGraphics
+# SoftwaveGraphics
 
 A simple and slow softwave render.
 It is used to study or understand the `GraphicsPipeline` and some algorithms.
