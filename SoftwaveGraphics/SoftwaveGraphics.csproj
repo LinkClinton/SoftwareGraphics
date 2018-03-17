@@ -60,5 +60,8 @@
     <Compile Include="Resource\Texture2D.cs" />
     <Compile Include="Struct\UnitProperty.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="readme.md" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
