@@ -2,46 +2,39 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 
 namespace SoftwaveGraphics
 {
-    public class Texture2D : Resource
+    public class Texture2D<T> : Resource<T>
     {
-        int width;
-        int height;
-        int elementSize;
+        private int width;
+        private int height;
+        private int rowPitch;
 
-        int rowPitch;
-
-        public Texture2D(int Width, int Height, int ElementSize)
+        public Texture2D(int Width, int Height) : base(Width * Height)
         {
             width = Width;
             height = Height;
-            elementSize = ElementSize;
 
-            rowPitch = width * elementSize;
-
-            resource = new byte[height * rowPitch];
+            rowPitch = width * ElementSize;
         }
 
-        public int ElementSize => elementSize;
-        public int Width => width;
-        public int Height => height;
-
-        public int GetBytesIndex(int x, int y)
+        public Texture2D(T[,] data = null) : this(data.GetLength(0), data.GetLength(1))
         {
-            return x * rowPitch + y * elementSize + 1;
+            data.CopyTo(resource, 0);
         }
 
-        public T GetElement<T>(int x, int y)
+        public void SetValue(int x, int y, T value)
         {
-            return BytesManager.BytesToStruct<T>(resource, GetBytesIndex(x, y));
+            resource[width * x + y] = value;    
         }
 
-        public void SetElement<T>(int x, int y, T data)
+        public T GetValue(int x,int y)
         {
-            BytesManager.StructToBytes(data, resource, GetBytesIndex(x, y));
+            return resource[width * x + y];
         }
+        
     }
 }
