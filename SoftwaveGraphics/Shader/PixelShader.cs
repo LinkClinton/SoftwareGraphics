@@ -13,6 +13,11 @@ namespace SoftwaveGraphics
     {
         public event PixelShaderUnit ProcessUnit;
 
+        internal void StartProcessUnit(ref UnitProperty unitProperty, params object[] inputData)
+        {
+            ProcessUnit.Invoke(ref unitProperty, inputData);
+        }
+
         public PixelShader()
         {
             ProcessUnit += OnProcessUnit;

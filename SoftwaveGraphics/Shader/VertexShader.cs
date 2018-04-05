@@ -10,8 +10,12 @@ namespace SoftwaveGraphics
 
     public class VertexShader : Shader
     {
-
         public event VertexShaderUnit ProcessUnit;
+
+        internal void StartProcessUnit(ref UnitProperty unitProperty, object vertex, params object[] inputData)
+        {
+            ProcessUnit.Invoke(ref unitProperty, vertex, inputData);
+        }
 
         public VertexShader()
         {

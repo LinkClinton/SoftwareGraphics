@@ -6,20 +6,32 @@ using System.Threading.Tasks;
 
 namespace SoftwaveGraphics
 {
-    public class InputAssemblerStage : BaseStage 
+    public abstract class InputAssemblerStage : BaseStage 
     {
-        private object vertics = null;
-        private object indices = null;
+        private Array vertics = null;
+        private Array indices = null;
+        private object[] inputData = null;
 
-        private PrimitiveType primitiveType = PrimitiveType.TriangleList;
-
-        public object Vertics { get => vertics; set => vertics = value; }
-        public object Indices { get => indices; set => indices = value; }
-        public PrimitiveType PrimitiveType { get => primitiveType; set => primitiveType = value; }
-
-        internal override void OnProcessStage()
+        public InputAssemblerStage(GraphicsPipeline GraphicsPipeline) : base(GraphicsPipeline)
         {
-            throw new NotImplementedException();
+
+        }
+
+        public Array Vertics { get => vertics; set => vertics = value; }
+        public Array Indices { get => indices; set => indices = value; }
+        public object[] InputData { get => inputData; set => inputData = value; }
+        
+        internal override void OnProcessStage(ref DrawCall drawCall)
+        {
+            
+        }
+    }
+
+    class InputAssemblerStageInstance : InputAssemblerStage
+    {
+        public InputAssemblerStageInstance(GraphicsPipeline GraphicsPipeline) : base(GraphicsPipeline)
+        {
+
         }
     }
 }

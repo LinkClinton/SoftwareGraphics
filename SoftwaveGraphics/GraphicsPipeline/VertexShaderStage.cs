@@ -10,11 +10,24 @@ namespace SoftwaveGraphics
     {
         private VertexShader vertexShader = null;
 
+        public VertexShaderStage(GraphicsPipeline GraphicsPipeline) : base(GraphicsPipeline)
+        {
+            
+        }
+
         public VertexShader VertexShader { get => vertexShader; set => vertexShader = value; }
 
-        internal override void OnProcessStage()
+        internal override void OnProcessStage(ref DrawCall drawCall)
         {
-            throw new NotImplementedException();
+
+        }
+    }
+
+    class VertexShaderStageInstance : VertexShaderStage
+    {
+        public VertexShaderStageInstance(GraphicsPipeline GraphicsPipeline) : base(GraphicsPipeline)
+        {
+
         }
     }
 }

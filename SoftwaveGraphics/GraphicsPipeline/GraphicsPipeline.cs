@@ -8,17 +8,31 @@ namespace SoftwaveGraphics
 {
     public class GraphicsPipeline
     {
-        private InputAssemblerStage inputAssemblerStage = new InputAssemblerStage();
-        private VertexShaderStage vertexShaderStage = new VertexShaderStage();
-        private RasterizerStage rasterizerStage = new RasterizerStage();
-        private PixelShaderStage pixelShaderStage = new PixelShaderStage();
-        private OutputMergerStage outputMergerStage = new OutputMergerStage();
+        private InputAssemblerStage inputAssemblerStage = null;
+        private VertexShaderStage vertexShaderStage = null;
+        private RasterizerStage rasterizerStage = null;
+        private PixelShaderStage pixelShaderStage = null;
+        private OutputMergerStage outputMergerStage = null;
 
+        public GraphicsPipeline()
+        {
+            inputAssemblerStage = new InputAssemblerStageInstance(this);
+            vertexShaderStage = new VertexShaderStageInstance(this);
+            rasterizerStage = new RasterizerStageInstance(this);
+            pixelShaderStage = new PixelShaderStage(this);
+            outputMergerStage = new OutputMergerStageInstance(this);
+        }
 
-        public InputAssemblerStage InputAssemblerStage { get => inputAssemblerStage; set => inputAssemblerStage = value; }
-        public VertexShaderStage VertexShaderStage { get => vertexShaderStage; set => vertexShaderStage = value; }
-        public RasterizerStage RasterizerStage { get => rasterizerStage; set => rasterizerStage = value; }
-        public PixelShaderStage PixelShaderStage { get => pixelShaderStage; set => pixelShaderStage = value; }
-        public OutputMergerStage OutputMergerStage { get => outputMergerStage; set => outputMergerStage = value; }
+        //Clip algorithm called Sutherland-Hodgeman
+        private void OnClip()
+        {
+
+        }
+
+        public InputAssemblerStage InputAssemblerStage { get => inputAssemblerStage; }
+        public VertexShaderStage VertexShaderStage { get => vertexShaderStage; }
+        public RasterizerStage RasterizerStage { get => rasterizerStage; }
+        public PixelShaderStage PixelShaderStage { get => pixelShaderStage; }
+        public OutputMergerStage OutputMergerStage { get => outputMergerStage; }
     }
 }

@@ -4,15 +4,16 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{E402D286-5167-442A-A028-4878789946CE}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SoftwaveGraphics</RootNamespace>
-    <AssemblyName>SoftwaveGraphics</AssemblyName>
+    <ProjectGuid>{824540F4-B6DE-4836-BAD8-3A01F4727529}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>Application</RootNamespace>
+    <AssemblyName>Application</AssemblyName>
     <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -22,6 +23,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -32,7 +34,6 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Numerics" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -41,26 +42,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Enum\PrimitiveType.cs" />
-    <Compile Include="GraphicsPipeline\BaseStage.cs" />
-    <Compile Include="GraphicsPipeline\GraphicsPipeline.cs" />
-    <Compile Include="GraphicsPipeline\InputAssemblerStage.cs" />
-    <Compile Include="GraphicsPipeline\OutputMergerStage.cs" />
-    <Compile Include="GraphicsPipeline\PixelShaderStage.cs" />
-    <Compile Include="GraphicsPipeline\RasterizerStage.cs" />
-    <Compile Include="GraphicsPipeline\VertexShaderStage.cs" />
+    <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Resource\DepthStencil.cs" />
-    <Compile Include="Shader\PixelShader.cs" />
-    <Compile Include="Shader\Shader.cs" />
-    <Compile Include="Shader\VertexShader.cs" />
-    <Compile Include="Resource\Resource.cs" />
-    <Compile Include="BytesManager.cs" />
-    <Compile Include="Resource\RenderTarget.cs" />
-    <Compile Include="Resource\Texture2D.cs" />
-    <Compile Include="Struct\DrawCall.cs" />
-    <Compile Include="Struct\Primitive.cs" />
-    <Compile Include="Struct\UnitProperty.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

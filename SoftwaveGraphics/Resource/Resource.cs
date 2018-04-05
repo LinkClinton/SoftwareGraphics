@@ -29,6 +29,16 @@ namespace SoftwaveGraphics
             data.CopyTo(resource, 0);
         }
 
+        public void SetElement(int position, T value)
+        {
+            resource[position] = value;
+        }
+
+        public T GetElement(int position)
+        {
+            return resource[position]; 
+        }
+
         public void CopyFromBytes(byte[] data)
         {
             //Debug data's size.

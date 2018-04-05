@@ -8,9 +8,23 @@ namespace SoftwaveGraphics
 {
     public class RasterizerStage : BaseStage
     {
-        internal override void OnProcessStage()
+        public RasterizerStage(GraphicsPipeline GraphicsPipeline) : base(GraphicsPipeline)
         {
-            throw new NotImplementedException();
+
+        }
+
+        internal override void OnProcessStage(ref DrawCall drawCall)
+        {
+
         }
     }
+
+    class RasterizerStageInstance : RasterizerStage
+    {
+        public RasterizerStageInstance(GraphicsPipeline GraphicsPipeline) : base(GraphicsPipeline)
+        {
+
+        }
+    }
+
 }

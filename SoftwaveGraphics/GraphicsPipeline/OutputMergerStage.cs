@@ -8,9 +8,22 @@ namespace SoftwaveGraphics
 {
     public class OutputMergerStage : BaseStage
     {
-        internal override void OnProcessStage()
+        public OutputMergerStage(GraphicsPipeline GraphicsPipeline) : base(GraphicsPipeline)
+        {
+
+        }
+
+        internal override void OnProcessStage(ref DrawCall drawCall)
         {
             throw new NotImplementedException();
+        }
+    }
+
+    class OutputMergerStageInstance : OutputMergerStage
+    {
+        public OutputMergerStageInstance(GraphicsPipeline GraphicsPipeline) : base(GraphicsPipeline)
+        {
+
         }
     }
 }

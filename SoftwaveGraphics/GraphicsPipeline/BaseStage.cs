@@ -8,6 +8,15 @@ namespace SoftwaveGraphics
 {
     public abstract class BaseStage
     {
-        internal abstract void OnProcessStage();
+        private GraphicsPipeline graphicsPipeline;
+
+        internal abstract void OnProcessStage(ref DrawCall drawCall);
+
+        public BaseStage(GraphicsPipeline GraphicsPipeline)
+        {
+            graphicsPipeline = GraphicsPipeline;
+        }
+
+        public GraphicsPipeline GraphicsPipeline => graphicsPipeline;
     }
 }
