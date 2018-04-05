@@ -23,12 +23,6 @@ namespace SoftwaveGraphics
             outputMergerStage = new OutputMergerStageInstance(this);
         }
 
-        //Clip algorithm called Sutherland-Hodgeman
-        private void OnClip()
-        {
-
-        }
-
         public InputAssemblerStage InputAssemblerStage { get => inputAssemblerStage; }
         public VertexShaderStage VertexShaderStage { get => vertexShaderStage; }
         public RasterizerStage RasterizerStage { get => rasterizerStage; }

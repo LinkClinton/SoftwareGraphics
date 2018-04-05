@@ -11,7 +11,7 @@ namespace SoftwaveGraphics
         //beacuse of C-Sharp, we can use array of vertex intead of vertex's index
         private UnitProperty[] vertics = null;
 
-        public Primitive(UnitProperty[] Vertics)
+        public Primitive(params UnitProperty[] Vertics)
         {
             vertics = Vertics;
         }

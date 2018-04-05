@@ -15,6 +15,12 @@ namespace SoftwaveGraphics
 
         internal override void OnProcessStage(ref DrawCall drawCall)
         {
+            //first we clip the primitives and we use Sutherland-Hodgeman algorithm
+            //for every primitive
+            for (int i = 0; i < drawCall.Primitives.Length; i++)
+            {
+                
+            }
 
         }
     }
