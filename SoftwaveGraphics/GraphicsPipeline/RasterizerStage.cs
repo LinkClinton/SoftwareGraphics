@@ -27,67 +27,77 @@ namespace SoftwaveGraphics
         {
             float t = 0;
 
-            // result = start + end * t
+            //vector = end - start
+            var vector = end - start;
+
+            // result = start + (end - start) * t
             switch (faceIndex)
             {
                 case FrustumFace.Left:
-                    // (start.x + end.x * t) / (start.w + end.w * t) = -1
-                    // t = (start.x + start.w) / (end.x + end.w)
-                    // and (end.x / end.w) != -1
+                    // (start.x + vector.x * t) / (start.w + vector.w * t) = -1
+                    // t = (start.x + start.w) / (vector.x + vector.w)
+                    // and (vector.x + vector.w) != 0 
+                    // because there is most one vertex on the edge(x = -w), so (vector.x + vector.w) = (end.x - start.x + end.w - start.w) != 0
 
                     t = (start.PositionTransformed.X + start.PositionTransformed.W) /
-                        (end.PositionTransformed.X + end.PositionTransformed.W);
+                        (vector.PositionTransformed.X + vector.PositionTransformed.W);
 
-                    return start + end * t;
+                    return start + vector * t;
                 case FrustumFace.Right:
-                    // (start.x + end.x * t) / (start.w + end.w * t) = 1
-                    // t = (start.w - start.x) / (end.x - end.w)
-                    // and (end.x / end.w) != 1
+                    // (start.x + vector.x * t) / (start.w + vector.w * t) = 1
+                    // t = (start.w - start.x) / (vector.x - vector.w)
+                    // and (vector.x - vector.w) != 0
+                    // because there is most one vertex on the edge(x = w), so (vector.x - vector.w) = (end.x - start.x - end.w + start.w) != 0
 
                     t = (start.PositionTransformed.W - start.PositionTransformed.X) /
-                        (end.PositionTransformed.X - end.PositionTransformed.W);
+                        (vector.PositionTransformed.X - vector.PositionTransformed.W);
 
-                    return start + end * t;
+                    return start + vector * t;
 
                 case FrustumFace.Bottom:
-                    // (start.y + end.y * t) / (start.w + end.w * t) = -1
-                    // t = (start.y + start.w) / (end.y + end.w)
-                    // and (end.y / end.w) != -1 
+                    // (start.y + vector.y * t) / (start.w + vector.w * t) = -1
+                    // t = (start.y + start.w) / (vector.y + vector.w)
+                    // and (vector.y + vector.w) != 0
+                    // because there is most one vertex on the edge(y = -w), so (vector.y + vector.w) = (end.y - start.y + end.w - start.w) != 0
 
                     t = (start.PositionTransformed.Y + start.PositionTransformed.W) /
-                        (end.PositionTransformed.Y + end.PositionTransformed.W);
+                        (vector.PositionTransformed.Y + vector.PositionTransformed.W);
 
-                    return start + end * t;
+                    return start + vector * t;
 
                 case FrustumFace.Top:
-                    // (start.y + end.y * t) / (start.w + end.w * t) = 1
-                    // t = (start.w - start.y) / (end.y - end.w)
-                    // and (end.y /end.w) != 1
+                    // (start.y + vector.y * t) / (start.w + vector.w * t) = 1
+                    // t = (start.w - start.y) / (vector.y - vector.w)
+                    // and (vector.y - vector.w) != 0
+                    // because there is most one vertex on the egde(y = w), so (vector.y - vector.w) = (end.y - start.y - end.w + start.w) != 0
 
                     t = (start.PositionTransformed.W - start.PositionTransformed.Y) /
-                        (end.PositionTransformed.Y - end.PositionTransformed.W);
+                        (vector.PositionTransformed.Y - vector.PositionTransformed.W);
 
-                    return start + end * t;
+                    return start + vector * t;
 
                 case FrustumFace.Near:
-                    // (start.z + end.z * t) / (start.w + end.w * t) = 0
-                    // t = - (start.z / end.z)
-                    // and end.z != 0
+                    // (start.z + vector.z * t) / (start.w + vector.w * t) = 0
+                    // t = - (start.z / vector.z)
+                    // and vector.z != 0
+                    // because there is most one vertex on the edge(z = 0), so vector.z = (end.z - start.z) != 0
 
-                    t = -(start.PositionTransformed.Z / end.PositionTransformed.Z);
+                    t = -(start.PositionTransformed.Z / vector.PositionTransformed.Z);
 
-                    return start + end * t;
+                    return start + vector * t;
 
                 case FrustumFace.Far:
-                    // (start.z + end.z * t) / (start.w + end.w * t) = 1
-                    // t = (start.w - start.z) / (end.z - end.w) 
+                    // (start.z + vector.z * t) / (start.w + vector.w * t) = 1
+                    // t = (start.w - start.z) / (vector.z - vector.w) 
+                    // and (vector.z - vector.w) != 0
+                    // because there is most one vertex on the edge(z = w), so (vector.z - vector.w) = (end.z - start.z - end.w + start.w) != 0
 
                     t = (start.PositionTransformed.W - start.PositionTransformed.Z) /
-                        (end.PositionTransformed.Z - end.PositionTransformed.W);
+                        (vector.PositionTransformed.Z - vector.PositionTransformed.W);
 
-                    return start + end * t;
+                    return start + vector * t;
                 default:
-                    return start + end * t;
+                    return start + vector * t;
             }
         }
 
