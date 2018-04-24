@@ -18,6 +18,8 @@ namespace SoftwaveGraphics
 
     public class RasterizerStage : BaseStage
     {
+        private CullMode cullMode = CullMode.None;
+
         public RasterizerStage(GraphicsPipeline GraphicsPipeline) : base(GraphicsPipeline)
         {
 
@@ -42,7 +44,7 @@ namespace SoftwaveGraphics
                     t = (start.PositionTransformed.X + start.PositionTransformed.W) /
                         (vector.PositionTransformed.X + vector.PositionTransformed.W);
 
-                    return start + vector * t;
+                    break;
                 case FrustumFace.Right:
                     // (start.x + vector.x * t) / (start.w + vector.w * t) = 1
                     // t = (start.w - start.x) / (vector.x - vector.w)
@@ -52,8 +54,7 @@ namespace SoftwaveGraphics
                     t = (start.PositionTransformed.W - start.PositionTransformed.X) /
                         (vector.PositionTransformed.X - vector.PositionTransformed.W);
 
-                    return start + vector * t;
-
+                    break;
                 case FrustumFace.Bottom:
                     // (start.y + vector.y * t) / (start.w + vector.w * t) = -1
                     // t = (start.y + start.w) / (vector.y + vector.w)
@@ -63,8 +64,7 @@ namespace SoftwaveGraphics
                     t = (start.PositionTransformed.Y + start.PositionTransformed.W) /
                         (vector.PositionTransformed.Y + vector.PositionTransformed.W);
 
-                    return start + vector * t;
-
+                    break;
                 case FrustumFace.Top:
                     // (start.y + vector.y * t) / (start.w + vector.w * t) = 1
                     // t = (start.w - start.y) / (vector.y - vector.w)
@@ -74,8 +74,7 @@ namespace SoftwaveGraphics
                     t = (start.PositionTransformed.W - start.PositionTransformed.Y) /
                         (vector.PositionTransformed.Y - vector.PositionTransformed.W);
 
-                    return start + vector * t;
-
+                    break;
                 case FrustumFace.Near:
                     // (start.z + vector.z * t) / (start.w + vector.w * t) = 0
                     // t = - (start.z / vector.z)
@@ -84,8 +83,7 @@ namespace SoftwaveGraphics
 
                     t = -(start.PositionTransformed.Z / vector.PositionTransformed.Z);
 
-                    return start + vector * t;
-
+                    break;
                 case FrustumFace.Far:
                     // (start.z + vector.z * t) / (start.w + vector.w * t) = 1
                     // t = (start.w - start.z) / (vector.z - vector.w) 
@@ -95,14 +93,73 @@ namespace SoftwaveGraphics
                     t = (start.PositionTransformed.W - start.PositionTransformed.Z) /
                         (vector.PositionTransformed.Z - vector.PositionTransformed.W);
 
-                    return start + vector * t;
+                    break;
                 default:
-                    return start + vector * t;
+                    break;
             }
+
+            var result = start + vector * t;
+
+            //divide for the new vertex
+            result.PositionAfterDivide = result.PositionTransformed / result.PositionTransformed.W;
+
+            return result;
+        }
+
+        //Cull the primitives
+        private void CullPrimitives(ref DrawCall drawCall)
+        {
+            //do not cull when CullMode is none or the primitive is not triangle(maybe line or point)
+            if (cullMode is CullMode.None && drawCall.PrimitiveType != PrimitiveType.TriangleList) return;
+
+            //result
+            List<Primitive> primitives = new List<Primitive>();
+
+            //for all primitives in the drawCall
+            foreach (var item in drawCall.Primitives)
+            {
+                //these vertics are in the NDC space
+                //so we only need discuss the x and y
+                //because the x and y are in the same plane(project window)
+                var u = item.Vertics[1].PositionAfterDivide - item.Vertics[0].PositionAfterDivide;
+                var v = item.Vertics[2].PositionAfterDivide - item.Vertics[0].PositionAfterDivide;
+
+                //only need discuss the x and y
+                var projectU = new System.Numerics.Vector2(u.X, u.Y);
+                var projectV = new System.Numerics.Vector2(v.X, v.Y);
+
+                //cull
+                switch (cullMode)
+                {
+                    case CullMode.None:
+                        break;
+                    case CullMode.Front:
+                        //u cross v = u.x * v.y - u.y * v.x
+                        //if u cross v < 0 it means the triangle is front-facing
+                        if (MathHelper.Cross(projectU, projectV) < 0)
+                            continue;
+
+                        break;
+                    case CullMode.Back:
+                        //u cross v = u.x * v.y - u.y * v.x
+                        //if u cross v < 0 it means the triangle is back-facing
+                        if (MathHelper.Cross(projectU, projectV) > 0)
+                            continue;
+                        break;
+                    default:
+                        break;
+                }
+
+                //do not cull
+                primitives.Add(item);
+            }
+
+            //result
+            drawCall.Primitives = primitives.ToArray();
         }
 
         //Sutherland-Hodgeman algorithm
-        private void ClipAlgorithm(ref DrawCall drawCall)
+        private void ClipPrimitives(ref DrawCall drawCall)
         {
             //we enum all primitives in the draw call
             for (int i = 0; i < drawCall.Primitives.Length; i++)
@@ -174,9 +231,18 @@ namespace SoftwaveGraphics
 
         internal override void OnProcessStage(ref DrawCall drawCall)
         {
-            //first we clip the primitives and we use Sutherland-Hodgeman algorithm
-            ClipAlgorithm(ref drawCall);
+            //first we cull the primitives
+            CullPrimitives(ref drawCall);
 
+            //second we clip the primitives and we use Sutherland-Hodgeman algorithm
+            ClipPrimitives(ref drawCall);
+
+        }
+
+        public CullMode CullMode
+        {
+            set => cullMode = value;
+            get => cullMode;
         }
     }
 

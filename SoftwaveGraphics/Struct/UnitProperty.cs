@@ -13,6 +13,7 @@ namespace SoftwaveGraphics
 
         private Vector3 position = Vector3.Zero;
         private Vector4 positionTransformed = Vector4.Zero;
+        private Vector4 positionAfterDivide = Vector4.Zero;
 
         private Vector4 color = Vector4.Zero;
 
@@ -46,6 +47,7 @@ namespace SoftwaveGraphics
 
         public Vector3 Position { get => position; set => position = value; }
         public Vector4 PositionTransformed { get => positionTransformed; set => positionTransformed = value; }
+        public Vector4 PositionAfterDivide { get => positionAfterDivide; set => positionAfterDivide = value; }
         public Vector4 Color { get => color; set => color = value; }
         public float Depth { get => depth; set => depth = value; }
 

@@ -61,6 +61,9 @@ namespace SoftwaveGraphics
                 vertexShader.StartProcessUnit(ref result, vertics[vertexIndex],
                     GraphicsPipeline.InputAssemblerStage.InputData);
 
+                //divide for the vertex
+                result.PositionAfterDivide = result.PositionTransformed / result.PositionTransformed.W;
+                
                 //get the result
                 drawCall.VertexResultProperties[vertexIndex - baseVertexLocation] = result;
             }

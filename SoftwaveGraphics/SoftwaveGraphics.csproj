@@ -41,6 +41,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Enum\CullMode.cs" />
     <Compile Include="Enum\PrimitiveType.cs" />
     <Compile Include="GraphicsPipeline\BaseStage.cs" />
     <Compile Include="GraphicsPipeline\GraphicsPipeline.cs" />
@@ -49,6 +50,7 @@
     <Compile Include="GraphicsPipeline\PixelShaderStage.cs" />
     <Compile Include="GraphicsPipeline\RasterizerStage.cs" />
     <Compile Include="GraphicsPipeline\VertexShaderStage.cs" />
+    <Compile Include="MathHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Resource\DepthStencil.cs" />
     <Compile Include="Shader\PixelShader.cs" />
