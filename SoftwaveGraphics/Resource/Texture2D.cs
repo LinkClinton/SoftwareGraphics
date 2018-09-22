@@ -13,6 +13,9 @@ namespace SoftwaveGraphics
         private int height;
         private int rowPitch;
 
+        public int Width { get => width; set => width = value; }
+        public int Height { get => height; set => height = value; }
+
         public Texture2D(int Width, int Height) : base(Width * Height)
         {
             width = Width;

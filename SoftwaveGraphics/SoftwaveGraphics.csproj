@@ -63,6 +63,7 @@
     <Compile Include="Struct\DrawCall.cs" />
     <Compile Include="Struct\Primitive.cs" />
     <Compile Include="Struct\UnitProperty.cs" />
+    <Compile Include="Utility.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

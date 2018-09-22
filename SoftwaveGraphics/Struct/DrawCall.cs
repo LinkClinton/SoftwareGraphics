@@ -16,6 +16,7 @@ namespace SoftwaveGraphics
         private PrimitiveType primitiveType = PrimitiveType.Unknown;
 
         private UnitProperty[] vertexResultProperties = null;
+        private UnitProperty[] pixels = null;
         private Primitive[] primitives = null;
 
         public DrawCall(int IndexCount = 0, int StartIndexLocation = 0,
@@ -30,6 +31,7 @@ namespace SoftwaveGraphics
         }
 
         internal UnitProperty[] VertexResultProperties { get => vertexResultProperties; set => vertexResultProperties = value; }
+        internal UnitProperty[] Pixels { get => pixels; set => pixels = value; }
         internal Primitive[] Primitives { get => primitives; set => primitives = value; }
 
         public int IndexCount => indexCount;

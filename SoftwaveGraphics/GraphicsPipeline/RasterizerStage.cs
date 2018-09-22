@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Numerics;
 using System.Threading.Tasks;
 
 namespace SoftwaveGraphics
@@ -19,12 +20,14 @@ namespace SoftwaveGraphics
     public class RasterizerStage : BaseStage
     {
         private CullMode cullMode = CullMode.None;
+        private RenderTarget renderTarget = null;
 
         public RasterizerStage(GraphicsPipeline GraphicsPipeline) : base(GraphicsPipeline)
         {
 
         }
 
+        //Clip the edge with a face
         private static UnitProperty ClipEdge(UnitProperty start, UnitProperty end, FrustumFace faceIndex)
         {
             float t = 0;
@@ -125,8 +128,8 @@ namespace SoftwaveGraphics
                 var v = item.Vertics[2].PositionAfterDivide - item.Vertics[0].PositionAfterDivide;
 
                 //only need discuss the x and y
-                var projectU = new System.Numerics.Vector2(u.X, u.Y);
-                var projectV = new System.Numerics.Vector2(v.X, v.Y);
+                var projectU = new Vector2(u.X, u.Y);
+                var projectV = new Vector2(v.X, v.Y);
 
                 //cull
                 switch (cullMode)
@@ -145,6 +148,7 @@ namespace SoftwaveGraphics
                         //if u cross v < 0 it means the triangle is back-facing
                         if (MathHelper.Cross(projectU, projectV) > 0)
                             continue;
+
                         break;
                     default:
                         break;
@@ -199,8 +203,7 @@ namespace SoftwaveGraphics
 
                             continue;
                         }
-
-                        //for intersecting
+                        
                         //the start is not insided but the end is insided.
                         if (currentVertex.IsInsideClipBoundary(face) is false)
                         {
@@ -229,6 +232,67 @@ namespace SoftwaveGraphics
             }
         }
 
+        //Divide primitives into triangles
+        private void TriangulatePrimitives(ref DrawCall drawCall)
+        {
+            var primitives = new List<Primitive>();
+
+            foreach (var item in drawCall.Primitives)
+            {
+                //we select a vertex to make triangulate
+                var importantVertex = item.Vertics[0];
+
+                //we can know the number of triangles is (item.Vertics.Length - 2)
+                for (int i = 0; i < item.Vertics.Length - 2; i++)
+                {
+                    var vertics = new UnitProperty[3];
+
+                    //new triangle
+                    vertics[0] = importantVertex;
+                    vertics[1] = item.Vertics[i + 1];
+                    vertics[2] = item.Vertics[i + 2];
+
+                    //add it
+                    primitives.Add(new Primitive(vertics));
+                }
+            }
+        }
+
+        private void RasterizerPrimitives(ref DrawCall drawCall)
+        {
+            List<UnitProperty> pixels = new List<UnitProperty>();
+
+            //for each primitives(triangles)
+            foreach (var primitive in drawCall.Primitives)
+            {
+                //bounding box = (left, top, right, bottom)
+                Vector4 boundingBox = new Vector4(float.MaxValue, float.MaxValue, float.MinValue, float.MinValue);
+
+                //create triangle
+                Vector2[] triangle = new Vector2[3];
+
+                int index = 0;
+
+                foreach (var vertex in primitive.Vertics)
+                {
+                    //compute the bounding box
+                    boundingBox.X = Math.Min(boundingBox.X, vertex.PositionAfterDivide.X);
+                    boundingBox.Y = Math.Min(boundingBox.Y, vertex.PositionAfterDivide.Y);
+                    boundingBox.Z = Math.Max(boundingBox.Z, vertex.PositionAfterDivide.X);
+                    boundingBox.W = Math.Max(boundingBox.W, vertex.PositionAfterDivide.Y);
+
+                    //make triangle data
+                    triangle[index] = new Vector2(
+                        primitive.Vertics[index].PositionAfterDivide.X,
+                        primitive.Vertics[index].PositionAfterDivide.Y);
+
+                    index++;
+                }
+
+                
+            }
+        }
+
         internal override void OnProcessStage(ref DrawCall drawCall)
         {
             //first we cull the primitives
@@ -237,6 +301,8 @@ namespace SoftwaveGraphics
             //second we clip the primitives and we use Sutherland-Hodgeman algorithm
             ClipPrimitives(ref drawCall);
 
+            //third we divide primitives into triangles
+            TriangulatePrimitives(ref drawCall);
         }
 
         public CullMode CullMode
@@ -244,13 +310,19 @@ namespace SoftwaveGraphics
             set => cullMode = value;
             get => cullMode;
         }
+
+        public RenderTarget RenderTarget
+        {
+            set => renderTarget = value;
+            get => renderTarget; 
+        }
     }
 
     class RasterizerStageInstance : RasterizerStage
     {
         public RasterizerStageInstance(GraphicsPipeline GraphicsPipeline) : base(GraphicsPipeline)
         {
-
+            
         }
     }
 

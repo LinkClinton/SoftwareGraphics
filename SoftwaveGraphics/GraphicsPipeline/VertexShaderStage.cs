@@ -31,15 +31,8 @@ namespace SoftwaveGraphics
 
             //for all primitives that we want to draw
             for (int index = drawCall.StartIndexLocation; index <= drawCall.EndIndexLocation; index += 3)
-            {
-                //create primitives
-                drawCall.Primitives[index / 3] = new Primitive(
-                    vertics[baseVertexLocation + indices[index]],
-                    vertics[baseVertexLocation + indices[index + 1]],
-                    vertics[baseVertexLocation + indices[index + 2]]);
-
+            { 
                 //find the range of vertices (from baseVertexLocation to baseVertexLocation + maxVertexIndex)
-                //but I can not make sure the DirectX and Vulkan how to do this.
                 maxVertexIndex = Math.Max(maxVertexIndex, indices[index]);
                 maxVertexIndex = Math.Max(maxVertexIndex, indices[index + 1]);
                 maxVertexIndex = Math.Max(maxVertexIndex, indices[index + 2]);
@@ -66,6 +59,15 @@ namespace SoftwaveGraphics
                 
                 //get the result
                 drawCall.VertexResultProperties[vertexIndex - baseVertexLocation] = result;
+            }
+
+            //create primitives
+            for (int index = drawCall.StartIndexLocation; index <= drawCall.EndIndexLocation; index += 3)
+            {
+                drawCall.Primitives[index / 3] = new Primitive(
+                    drawCall.VertexResultProperties[indices[index]],
+                    drawCall.VertexResultProperties[indices[index + 1]],
+                    drawCall.VertexResultProperties[indices[index + 2]]);
             }
         }
     }

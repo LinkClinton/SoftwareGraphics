@@ -7,7 +7,7 @@ using System.Runtime.InteropServices;
 
 namespace SoftwaveGraphics
 {
-    class DepthStencil<T> : Texture2D<T>
+    class DepthStencil : Texture2D<float>
     {
         public DepthStencil(int Width, int Height) : base(Width, Height)
         {
