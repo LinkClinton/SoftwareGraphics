@@ -14,5 +14,11 @@ namespace SoftwaveGraphics
         {
 
         }  
+
+        public void Clear()
+        {
+            for (int i = 0; i < resource.Length; i++)
+                resource[i] = Vector4.Zero;
+        }
     }
 }

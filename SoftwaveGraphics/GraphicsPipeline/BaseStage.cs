@@ -17,6 +17,6 @@ namespace SoftwaveGraphics
             graphicsPipeline = GraphicsPipeline;
         }
 
-        public GraphicsPipeline GraphicsPipeline => graphicsPipeline;
+        internal GraphicsPipeline GraphicsPipeline => graphicsPipeline;
     }
 }

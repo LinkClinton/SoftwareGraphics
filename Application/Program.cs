@@ -4,13 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+using SoftwaveGraphics;
+
 namespace Application
 {
     class Program
     {
         static void Main(string[] args)
         {
-            
         }
     }
 }

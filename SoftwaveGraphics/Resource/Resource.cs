@@ -39,18 +39,6 @@ namespace SoftwaveGraphics
             return resource[position]; 
         }
 
-        public void CopyFromBytes(byte[] data)
-        {
-            //Debug data's size.
-
-            resource = BytesManager.BytesToStruct<T[]>(data);
-        }
-
-        public byte[] CopyToBytes()
-        {
-            return BytesManager.StructToBytes(resource);
-        }
-
         public T[] Source => resource;
 
         public int Size => size;

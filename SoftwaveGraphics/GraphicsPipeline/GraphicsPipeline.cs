@@ -23,6 +23,21 @@ namespace SoftwaveGraphics
             outputMergerStage = new OutputMergerStageInstance(this);
         }
 
+        public void Draw(int indexCount = 0, int startIndexLocation = 0, int baseVertexLocation = 0)
+        {
+            DrawCall drawCall = new DrawCall(indexCount, startIndexLocation, baseVertexLocation, PrimitiveType.TriangleList);
+
+            inputAssemblerStage.OnProcessStage(ref drawCall);
+
+            vertexShaderStage.OnProcessStage(ref drawCall);
+
+            rasterizerStage.OnProcessStage(ref drawCall);
+
+            pixelShaderStage.OnProcessStage(ref drawCall);
+
+            outputMergerStage.OnProcessStage(ref drawCall);
+        }
+
         public InputAssemblerStage InputAssemblerStage { get => inputAssemblerStage; }
         public VertexShaderStage VertexShaderStage { get => vertexShaderStage; }
         public RasterizerStage RasterizerStage { get => rasterizerStage; }

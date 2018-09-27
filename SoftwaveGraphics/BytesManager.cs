@@ -37,7 +37,7 @@ namespace SoftwaveGraphics
             Marshal.Copy(dataPtr, result, 0, sizeT);
 
             Marshal.FreeHGlobal(dataPtr);
-            
+
             return result;
         }
 
