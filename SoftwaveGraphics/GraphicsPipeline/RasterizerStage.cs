@@ -20,8 +20,7 @@ namespace SoftwaveGraphics
     public class RasterizerStage : BaseStage
     {
         private CullMode cullMode = CullMode.None;
-        private RenderTarget renderTarget = null;
-
+        
         public RasterizerStage(GraphicsPipeline GraphicsPipeline) : base(GraphicsPipeline)
         {
 
@@ -265,6 +264,8 @@ namespace SoftwaveGraphics
         {
             List<PixelProperty> pixels = new List<PixelProperty>();
 
+            var renderTarget = GraphicsPipeline.OutputMergerStage.RenderTarget;
+
             //for each primitives(triangles)
             //and the primitives are counter-clockwise.
             foreach (var primitive in drawCall.Primitives)
@@ -352,6 +353,7 @@ namespace SoftwaveGraphics
                 }
             }
 
+            //get the pixels
             drawCall.Pixels = pixels.ToArray();
         }
 
@@ -374,12 +376,6 @@ namespace SoftwaveGraphics
         {
             set => cullMode = value;
             get => cullMode;
-        }
-
-        public RenderTarget RenderTarget
-        {
-            set => renderTarget = value;
-            get => renderTarget; 
         }
     }
 

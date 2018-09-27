@@ -19,7 +19,15 @@ namespace SoftwaveGraphics
 
         internal override void OnProcessStage(ref DrawCall drawCall)
         {
-            throw new NotImplementedException();
+            //enum the pixel
+            for (int i = 0; i < drawCall.Pixels.Length; i++)
+            {
+                UnitProperty unitProperty = drawCall.Pixels[i].UnitProperty;
+
+                pixelShader.StartProcessUnit(ref unitProperty, GraphicsPipeline.InputAssemblerStage.InputData);
+
+                drawCall.Pixels[i].UnitProperty = unitProperty;
+            }
         }
     }
 
