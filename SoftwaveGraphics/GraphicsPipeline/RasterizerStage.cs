@@ -252,6 +252,9 @@ namespace SoftwaveGraphics
                     vertics[1] = item.Vertics[i + 1];
                     vertics[2] = item.Vertics[i + 2];
 
+                    //normalize the ordering(counter-clockwise)
+                    Utility.NormalizeOrdering(ref vertics);
+
                     //add it
                     primitives.Add(new Primitive(vertics));
                 }
@@ -260,9 +263,10 @@ namespace SoftwaveGraphics
 
         private void RasterizerPrimitives(ref DrawCall drawCall)
         {
-            List<UnitProperty> pixels = new List<UnitProperty>();
+            List<PixelProperty> pixels = new List<PixelProperty>();
 
             //for each primitives(triangles)
+            //and the primitives are counter-clockwise.
             foreach (var primitive in drawCall.Primitives)
             {
                 //bounding box = (left, top, right, bottom)
@@ -273,6 +277,7 @@ namespace SoftwaveGraphics
 
                 int index = 0;
 
+                //enum the vertex
                 foreach (var vertex in primitive.Vertics)
                 {
                     //compute the bounding box
@@ -281,16 +286,73 @@ namespace SoftwaveGraphics
                     boundingBox.Z = Math.Max(boundingBox.Z, vertex.PositionAfterDivide.X);
                     boundingBox.W = Math.Max(boundingBox.W, vertex.PositionAfterDivide.Y);
 
-                    //make triangle data
+                    //make triangle data and convert it to the render target
+                    //the range of point in the ndc space is [-1 ,1]
+                    //so the point in the screen is (point + 1) * size * 0.5f
                     triangle[index] = new Vector2(
-                        primitive.Vertics[index].PositionAfterDivide.X,
-                        primitive.Vertics[index].PositionAfterDivide.Y);
+                        (primitive.Vertics[index].PositionAfterDivide.X + 1) * renderTarget.Width * 0.5f,
+                        (primitive.Vertics[index].PositionAfterDivide.Y + 1) * renderTarget.Height * 0.5f);
 
                     index++;
                 }
 
-                
+                //convert the boundingBox to the render target
+                boundingBox.X = (float)Math.Floor((boundingBox.X + 1) * renderTarget.Width * 0.5f);
+                boundingBox.Y = (float)Math.Floor((boundingBox.Y + 1) * renderTarget.Height * 0.5f);
+                boundingBox.Z = (float)Math.Ceiling((boundingBox.Z + 1) * renderTarget.Width * 0.5f);
+                boundingBox.W = (float)Math.Ceiling((boundingBox.W + 1) * renderTarget.Height * 0.5f);
+
+                //get the triangle's area
+                //we do not need to divide 2
+                float triangleArea = MathHelper.AreaFunction(triangle[0], triangle[1], triangle[2]);
+
+                //make the UnitProperties for computing the pixel's unitProperty
+                //rule: P = z * (P0 / z0 * e0 + P1 / z1 * e1 + P2 / z2 * e2)
+                //e0 + e1 + e2 = 1
+                var unitProperties = new UnitProperty[3];
+
+                unitProperties[0] = primitive.Vertics[0] / primitive.Vertics[0].PositionTransformed.Z;
+                unitProperties[1] = primitive.Vertics[1] / primitive.Vertics[1].PositionTransformed.Z;
+                unitProperties[2] = primitive.Vertics[2] / primitive.Vertics[2].PositionTransformed.Z;
+
+                //make the invert z to compute the pixel's invert z
+                //rule: Z = 1 / (1 / z0 * e0 + 1 / z1 * e1 + 1 / z2 * e2)
+                var triangleInvertZ = new float[3];
+
+                triangleInvertZ[0] = 1.0f / primitive.Vertics[0].PositionTransformed.Z;
+                triangleInvertZ[1] = 1.0f / primitive.Vertics[1].PositionTransformed.Z;
+                triangleInvertZ[2] = 1.0f / primitive.Vertics[2].PositionTransformed.Z;
+
+                //enum the pixel
+                for (int x = (int)boundingBox.X; x <= boundingBox.Z; x++)
+                {
+                    for (int y = (int)boundingBox.Y; y <= boundingBox.W; y++)
+                    {
+                        //0.5f offset, because we will use the center of pixel
+                        var pixel = new Vector2(x + 0.5f, y + 0.5f);
+
+                        //compute the area(ratio) about sub-triangle
+                        float subArea0 = MathHelper.AreaFunction(triangle[0], triangle[1], pixel) / triangleArea;
+                        float subArea1 = MathHelper.AreaFunction(triangle[1], triangle[2], pixel) / triangleArea;
+                        float subArea2 = MathHelper.AreaFunction(triangle[2], triangle[0], pixel) / triangleArea;
+
+                        if (subArea0 < 0 || subArea1 < 0 || subArea2 < 0) continue;
+
+                        //compute the property
+                        UnitProperty pixelProperty 
+                            = unitProperties[0] * subArea0 + unitProperties[1] * subArea1 + unitProperties[2] * subArea2;
+
+                        float invertZ = 1.0f / (triangleInvertZ[0] * subArea0 + triangleInvertZ[1] * subArea1 + triangleInvertZ[2] * subArea2);
+
+                        pixelProperty = pixelProperty * invertZ;
+
+                        //accept the pixel
+                        pixels.Add(new PixelProperty(pixelProperty, new Vector2(x, y)));
+                    }
+                }
             }
+
+            drawCall.Pixels = pixels.ToArray();
         }
 
         internal override void OnProcessStage(ref DrawCall drawCall)
@@ -303,6 +365,9 @@ namespace SoftwaveGraphics
 
             //third we divide primitives into triangles
             TriangulatePrimitives(ref drawCall);
+
+            //at last, we do the rasterization
+            RasterizerPrimitives(ref drawCall);
         }
 
         public CullMode CullMode

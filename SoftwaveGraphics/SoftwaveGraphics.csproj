@@ -61,6 +61,7 @@
     <Compile Include="Resource\RenderTarget.cs" />
     <Compile Include="Resource\Texture2D.cs" />
     <Compile Include="Struct\DrawCall.cs" />
+    <Compile Include="Struct\PixelProperty.cs" />
     <Compile Include="Struct\Primitive.cs" />
     <Compile Include="Struct\UnitProperty.cs" />
     <Compile Include="Utility.cs" />

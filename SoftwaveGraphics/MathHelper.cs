@@ -14,5 +14,11 @@ namespace SoftwaveGraphics
             //u cross v = u.x * v.y - u.y * v.x
             return u.X * v.Y - u.Y * v.X;
         }
+
+        //counter-clockwise, return the area of parallelogram
+        public static float AreaFunction(Vector2 u, Vector2 v, Vector2 p)
+        {
+            return Cross(v - u, p - u);
+        }
     }
 }

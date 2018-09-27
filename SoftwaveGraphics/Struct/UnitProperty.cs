@@ -58,35 +58,62 @@ namespace SoftwaveGraphics
 
         public static UnitProperty operator +(UnitProperty left, UnitProperty right)
         {
-            return new UnitProperty()
+            var result = new UnitProperty()
             {
                 color = right.color + left.color,
                 depth = right.depth + left.depth,
                 position = right.position + left.position,
                 positionTransformed = right.positionTransformed + left.positionTransformed
             };
+
+            result.positionAfterDivide = result.positionTransformed / result.positionTransformed.W;
+
+            return result;
         }
 
         public static UnitProperty operator -(UnitProperty left, UnitProperty right)
         {
-            return new UnitProperty()
+            var result=  new UnitProperty()
             {
                 color = right.color - left.color,
                 depth = right.depth - left.depth,
                 position = right.position - left.position,
                 positionTransformed = right.positionTransformed - left.positionTransformed
             };
+
+            result.positionAfterDivide = result.positionTransformed / result.positionTransformed.W;
+
+            return result;
         }
 
         public static UnitProperty operator *(UnitProperty left, float right)
         {
-            return new UnitProperty()
+            var result = new UnitProperty()
             {
                 color = left.color * right,
                 depth = left.depth * right,
                 position = left.position * right,
                 positionTransformed = left.positionTransformed * right
             };
+
+            result.positionAfterDivide = result.positionTransformed / result.positionTransformed.W;
+
+            return result;
+        }
+
+        public static UnitProperty operator /(UnitProperty left, float right)
+        {
+            var result=  new UnitProperty()
+            {
+                color = left.color / right,
+                depth = left.depth / right,
+                position = left.position / right,
+                positionTransformed = left.positionTransformed / right,
+            };
+
+            result.positionAfterDivide = result.positionTransformed / result.positionTransformed.W;
+
+            return result;
         }
     }
 }
