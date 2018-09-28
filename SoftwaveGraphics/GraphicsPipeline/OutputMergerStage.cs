@@ -22,7 +22,7 @@ namespace SoftwaveGraphics
             foreach (var item in drawCall.Pixels)
             {
                 renderTarget.SetValue((int)item.Location.X, (int)item.Location.Y,
-                    item.UnitProperty.Color);
+                    new Color(item.UnitProperty.Color));
             }
         }
 

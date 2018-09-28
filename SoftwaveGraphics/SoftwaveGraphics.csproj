@@ -20,6 +20,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <UseVSHostingProcess>true</UseVSHostingProcess>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -28,6 +29,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <UseVSHostingProcess>true</UseVSHostingProcess>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -60,6 +62,7 @@
     <Compile Include="BytesManager.cs" />
     <Compile Include="Resource\RenderTarget.cs" />
     <Compile Include="Resource\Texture2D.cs" />
+    <Compile Include="Struct\Color.cs" />
     <Compile Include="Struct\DrawCall.cs" />
     <Compile Include="Struct\PixelProperty.cs" />
     <Compile Include="Struct\Primitive.cs" />
