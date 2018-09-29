@@ -21,8 +21,7 @@ namespace Application
         private Bitmap renderBuffer;
 
         private RenderTarget renderTarget;
-        private GraphicsPipeline graphicsPipeline;
-
+        
         private byte[] bytes;
 
         public ImageObject(GameScene gameScene)
@@ -35,19 +34,20 @@ namespace Application
             this.renderBuffer = new Bitmap(gameScene.Resolution);
 
             this.renderTarget = new RenderTarget(gameScene.Resolution.Width, gameScene.Resolution.Height);
-            this.graphicsPipeline = new GraphicsPipeline();
-
+            
             this.bytes = new byte[renderTarget.SizeBytes];
 
             GameResource.SetBitmap("RenderBuffer", renderBuffer);
-            //GameResource.SetBitmap("RenderBuffer", new System.IO.FileStream("Bitmap.png", System.IO.FileMode.Open));
         }
 
         public override void Update(float deltaTime)
         {
+            RenderPass.Update(deltaTime);
+
             renderTarget.Clear();
 
             //draw
+            RenderPass.Draw(renderTarget);
 
             renderTarget.CopyTo(ref bytes);
             renderBuffer.CopyFromMemroy(bytes);

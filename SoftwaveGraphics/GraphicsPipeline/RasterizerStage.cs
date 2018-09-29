@@ -258,6 +258,8 @@ namespace SoftwaveGraphics
                     primitives.Add(new Primitive(vertics));
                 }
             }
+
+            drawCall.Primitives = primitives.ToArray();
         }
 
         private void RasterizerPrimitives(ref DrawCall drawCall)
@@ -333,9 +335,9 @@ namespace SoftwaveGraphics
                         var pixel = new Vector2(x + 0.5f, y + 0.5f);
 
                         //compute the area(ratio) about sub-triangle
-                        float subArea0 = MathHelper.AreaFunction(triangle[0], triangle[1], pixel) / triangleArea;
-                        float subArea1 = MathHelper.AreaFunction(triangle[1], triangle[2], pixel) / triangleArea;
-                        float subArea2 = MathHelper.AreaFunction(triangle[2], triangle[0], pixel) / triangleArea;
+                        float subArea0 = MathHelper.AreaFunction(triangle[1], triangle[2], pixel) / triangleArea;
+                        float subArea1 = MathHelper.AreaFunction(triangle[2], triangle[0], pixel) / triangleArea;
+                        float subArea2 = MathHelper.AreaFunction(triangle[0], triangle[1], pixel) / triangleArea;
 
                         if (subArea0 < 0 || subArea1 < 0 || subArea2 < 0) continue;
 

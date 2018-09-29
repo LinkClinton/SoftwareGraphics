@@ -51,6 +51,11 @@
     <Compile Include="ImageObject.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RenderPass.cs" />
+    <Compile Include="Shader\TestPixelShader.cs" />
+    <Compile Include="Shader\TestVertexShader.cs" />
+    <Compile Include="Struct\Camera.cs" />
+    <Compile Include="Struct\Cube.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -65,11 +70,6 @@
       <Project>{e402d286-5167-442a-a028-4878789946ce}</Project>
       <Name>SoftwaveGraphics</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Bitmap.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

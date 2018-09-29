@@ -39,7 +39,7 @@ namespace SoftwaveGraphics
             }
 
             //create the array of result 
-            drawCall.VertexResultProperties = new UnitProperty[maxVertexIndex];
+            drawCall.VertexResultProperties = new UnitProperty[maxVertexIndex + 1];
 
             //the end position of vertex
             var endVertexLocation = baseVertexLocation + maxVertexIndex;

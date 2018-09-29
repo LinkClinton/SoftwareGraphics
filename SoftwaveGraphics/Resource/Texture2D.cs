@@ -31,12 +31,12 @@ namespace SoftwaveGraphics
 
         public void SetValue(int x, int y, T value)
         {
-            resource[width * x + y] = value;    
+            resource[width * y + x] = value;    
         }
 
         public T GetValue(int x,int y)
         {
-            return resource[width * x + y];
+            return resource[width * y + x];
         }
         
     }

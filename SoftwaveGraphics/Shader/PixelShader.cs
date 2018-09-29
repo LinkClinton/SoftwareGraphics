@@ -23,7 +23,7 @@ namespace SoftwaveGraphics
             ProcessUnit += OnProcessUnit;
         }
 
-        private object OnProcessUnit(ref UnitProperty unitProperty, params object[] inputData)
+        protected virtual object OnProcessUnit(ref UnitProperty unitProperty, params object[] inputData)
         {
             return Vector4.Zero;
         }
