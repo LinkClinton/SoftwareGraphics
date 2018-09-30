@@ -58,7 +58,7 @@ namespace Application
             matrix[0] = Matrix4x4.CreateRotationY((float)Math.PI * 0);
             matrix[1] = Matrix4x4.CreateLookAt(camera.Position, camera.LookAt, new Vector3(0, 1, 0));
             matrix[2] = Matrix4x4.CreatePerspectiveFieldOfView((float)Math.PI * 0.55f,
-                    1280f / 720f, 1.0f, 2000.0f);
+                    Program.Size.Width / (float)Program.Size.Height, 1.0f, 2000.0f);
         }
 
         static RenderPass()

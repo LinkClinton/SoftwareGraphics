@@ -31,7 +31,47 @@ namespace SoftwaveGraphics
                     return false;
             }
         }
-        
+
+        public void Add(UnitProperty unitProperty)
+        {
+            color += unitProperty.color;
+            depth += unitProperty.depth;
+            position += unitProperty.position;
+            positionTransformed += unitProperty.positionTransformed;
+            
+            positionAfterDivide = positionTransformed / positionTransformed.W;
+        }
+
+        public void Subtract(UnitProperty unitProperty)
+        {
+            color -= unitProperty.color;
+            depth -= unitProperty.depth;
+            position -= unitProperty.position;
+            positionTransformed -= unitProperty.positionTransformed;
+
+            positionAfterDivide = positionTransformed / positionTransformed.W;
+        }
+
+        public void Multiply(float value)
+        {
+            color *= value;
+            depth *= value;
+            position *= value;
+            positionTransformed *= value;
+
+            positionAfterDivide = positionTransformed / positionTransformed.W;
+        }
+
+        public void Divide(float value)
+        {
+            color /= value;
+            depth /= value;
+            position /= value;
+            positionTransformed /= value;
+
+            positionAfterDivide = positionTransformed / positionTransformed.W;
+        }
+
         //left: x = -w
         public bool IsInsideLeftClipBoundary => positionTransformed.X >= -positionTransformed.W;
         //right: x = w
