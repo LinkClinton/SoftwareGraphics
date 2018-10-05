@@ -6,7 +6,7 @@ using System.Numerics;
 using System.Threading.Tasks;
 using System.Runtime.InteropServices;
 
-namespace SoftwaveGraphics
+namespace SoftwareGraphics
 {
     public class RenderTarget : Texture2D<Color>
     {

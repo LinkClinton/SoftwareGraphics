@@ -5,7 +5,7 @@ using System.Text;
 using System.Numerics;
 using System.Threading.Tasks;
 
-using SoftwaveGraphics;
+using SoftwareGraphics;
 
 namespace Application
 {

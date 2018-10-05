@@ -5,7 +5,7 @@ using System.Text;
 using System.Numerics;
 using System.Threading.Tasks;
 
-namespace SoftwaveGraphics
+namespace SoftwareGraphics
 {
     class PixelProperty
     {

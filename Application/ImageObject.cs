@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-using SoftwaveGraphics;
+using SoftwareGraphics;
 
 using GalEngine;
 using GalEngine.Extension;

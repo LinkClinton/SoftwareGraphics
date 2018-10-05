@@ -7,8 +7,8 @@
     <ProjectGuid>{E402D286-5167-442A-A028-4878789946CE}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SoftwaveGraphics</RootNamespace>
-    <AssemblyName>SoftwaveGraphics</AssemblyName>
+    <RootNamespace>SoftwareGraphics</RootNamespace>
+    <AssemblyName>SoftwareGraphics</AssemblyName>
     <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>

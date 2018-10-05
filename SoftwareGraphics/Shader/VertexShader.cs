@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SoftwaveGraphics
+namespace SoftwareGraphics
 {
     public delegate void VertexShaderUnit(ref UnitProperty unitProperty, object vertex, params object[] inputData);
 

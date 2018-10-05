@@ -5,7 +5,7 @@ using System.Text;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 
-namespace SoftwaveGraphics
+namespace SoftwareGraphics
 {
     public class Texture2D<T> : Resource<T>
     {
