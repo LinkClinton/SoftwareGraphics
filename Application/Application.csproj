@@ -66,7 +66,7 @@
       <Project>{26afd910-ad7c-4165-8622-cb8103c2ca7d}</Project>
       <Name>GalEngine</Name>
     </ProjectReference>
-    <ProjectReference Include="..\SoftwaveGraphics\SoftwareGraphics.csproj">
+    <ProjectReference Include="..\SoftwareGraphics\SoftwareGraphics.csproj">
       <Project>{e402d286-5167-442a-a028-4878789946ce}</Project>
       <Name>SoftwareGraphics</Name>
     </ProjectReference>
