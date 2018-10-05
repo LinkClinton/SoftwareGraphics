@@ -39,11 +39,11 @@ namespace SoftwaveGraphics
             {
                 case FrustumFace.Left:
                     // (start.x + vector.x * t) / (start.w + vector.w * t) = -1
-                    // t = (start.x + start.w) / (vector.x + vector.w)
+                    // t = -(start.x + start.w) / (vector.x + vector.w)
                     // and (vector.x + vector.w) != 0 
-                    // because there is most one vertex on the edge(x = -w), so (vector.x + vector.w) = (end.x - start.x + end.w - start.w) != 0
+                    // because there is most one vertex on the face(x = -w), so (vector.x + vector.w) = (end.x - start.x + end.w - start.w) != 0
 
-                    t = (start.PositionTransformed.X + start.PositionTransformed.W) /
+                    t = -(start.PositionTransformed.X + start.PositionTransformed.W) /
                         (vector.PositionTransformed.X + vector.PositionTransformed.W);
 
                     break;
@@ -51,7 +51,7 @@ namespace SoftwaveGraphics
                     // (start.x + vector.x * t) / (start.w + vector.w * t) = 1
                     // t = (start.w - start.x) / (vector.x - vector.w)
                     // and (vector.x - vector.w) != 0
-                    // because there is most one vertex on the edge(x = w), so (vector.x - vector.w) = (end.x - start.x - end.w + start.w) != 0
+                    // because there is most one vertex on the face(x = w), so (vector.x - vector.w) = (end.x - start.x - end.w + start.w) != 0
 
                     t = (start.PositionTransformed.W - start.PositionTransformed.X) /
                         (vector.PositionTransformed.X - vector.PositionTransformed.W);
@@ -61,9 +61,9 @@ namespace SoftwaveGraphics
                     // (start.y + vector.y * t) / (start.w + vector.w * t) = -1
                     // t = (start.y + start.w) / (vector.y + vector.w)
                     // and (vector.y + vector.w) != 0
-                    // because there is most one vertex on the edge(y = -w), so (vector.y + vector.w) = (end.y - start.y + end.w - start.w) != 0
+                    // because there is most one vertex on the face(y = -w), so (vector.y + vector.w) = (end.y - start.y + end.w - start.w) != 0
 
-                    t = (start.PositionTransformed.Y + start.PositionTransformed.W) /
+                    t = -(start.PositionTransformed.Y + start.PositionTransformed.W) /
                         (vector.PositionTransformed.Y + vector.PositionTransformed.W);
 
                     break;
@@ -71,7 +71,7 @@ namespace SoftwaveGraphics
                     // (start.y + vector.y * t) / (start.w + vector.w * t) = 1
                     // t = (start.w - start.y) / (vector.y - vector.w)
                     // and (vector.y - vector.w) != 0
-                    // because there is most one vertex on the egde(y = w), so (vector.y - vector.w) = (end.y - start.y - end.w + start.w) != 0
+                    // because there is most one vertex on the face(y = w), so (vector.y - vector.w) = (end.y - start.y - end.w + start.w) != 0
 
                     t = (start.PositionTransformed.W - start.PositionTransformed.Y) /
                         (vector.PositionTransformed.Y - vector.PositionTransformed.W);
@@ -81,7 +81,7 @@ namespace SoftwaveGraphics
                     // (start.z + vector.z * t) / (start.w + vector.w * t) = 0
                     // t = - (start.z / vector.z)
                     // and vector.z != 0
-                    // because there is most one vertex on the edge(z = 0), so vector.z = (end.z - start.z) != 0
+                    // because there is most one vertex on the face(z = 0), so vector.z = (end.z - start.z) != 0
 
                     t = -(start.PositionTransformed.Z / vector.PositionTransformed.Z);
 
@@ -90,7 +90,7 @@ namespace SoftwaveGraphics
                     // (start.z + vector.z * t) / (start.w + vector.w * t) = 1
                     // t = (start.w - start.z) / (vector.z - vector.w) 
                     // and (vector.z - vector.w) != 0
-                    // because there is most one vertex on the edge(z = w), so (vector.z - vector.w) = (end.z - start.z - end.w + start.w) != 0
+                    // because there is most one vertex on the face(z = w), so (vector.z - vector.w) = (end.z - start.z - end.w + start.w) != 0
 
                     t = (start.PositionTransformed.W - start.PositionTransformed.Z) /
                         (vector.PositionTransformed.Z - vector.PositionTransformed.W);
@@ -169,12 +169,11 @@ namespace SoftwaveGraphics
             {
                 //create a temp for calculating
                 var result = new Primitive(drawCall.Primitives[i].Vertics);
-                var verticesList = new List<UnitProperty>();
-
+                
                 //for all face of frustum
                 for (FrustumFace face = FrustumFace.Left; face <= FrustumFace.Far; face++)
                 {
-                    verticesList.Clear();
+                    var verticesList = new List<UnitProperty>();
 
                     //enum all edge in edge primitive
                     for (int vertexIndex = 0; vertexIndex < result.Vertics.Length; vertexIndex++)
@@ -185,7 +184,6 @@ namespace SoftwaveGraphics
                         //the last edge
                         if (vertexIndex + 1 != result.Vertics.Length)
                             nextVertex = result.Vertics[vertexIndex + 1];
-
 
 
                         //the edge is not inside the clip boundary, so we do not add the vertex to result
@@ -207,8 +205,7 @@ namespace SoftwaveGraphics
                         if (currentVertex.IsInsideClipBoundary(face) is false)
                         {
                             verticesList.Add(ClipEdge(currentVertex, nextVertex, face));
-                            verticesList.Add(nextVertex);
-
+                            
                             continue;
                         }
 
@@ -238,6 +235,9 @@ namespace SoftwaveGraphics
 
             foreach (var item in drawCall.Primitives)
             {
+                //ignore the primitive that was cliped
+                if (item.Vertics.Length == 0) continue;
+
                 //we select a vertex to make triangulate
                 var importantVertex = item.Vertics[0];
 
@@ -304,6 +304,12 @@ namespace SoftwaveGraphics
                 boundingBox.Y = (float)Math.Floor((boundingBox.Y + 1) * renderTarget.Height * 0.5f);
                 boundingBox.Z = (float)Math.Ceiling((boundingBox.Z + 1) * renderTarget.Width * 0.5f);
                 boundingBox.W = (float)Math.Ceiling((boundingBox.W + 1) * renderTarget.Height * 0.5f);
+
+                //for the float
+                boundingBox.X = Utility.Limit(boundingBox.X, 0, renderTarget.Width);
+                boundingBox.Y = Utility.Limit(boundingBox.Y, 0, renderTarget.Height);
+                boundingBox.Z = Utility.Limit(boundingBox.Z, 0, renderTarget.Width);
+                boundingBox.W = Utility.Limit(boundingBox.W, 0, renderTarget.Height);
 
                 //get the triangle's area
                 //we do not need to divide 2

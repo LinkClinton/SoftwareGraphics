@@ -1,0 +1,54 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DirectedGraph xmlns="http://schemas.microsoft.com/vs/2009/dgml">
+  <Nodes>
+    <Node Id="InputAssageStage" Bounds="-64.8333333333333,-293.848085023612,142.816666666667,25.24" Label="InputAssemblerStage" UseManualLocation="True" />
+    <Node Id="OutputMergerStage" Bounds="-69.8233338419596,68.25,135.873333333333,25.24" UseManualLocation="True" />
+    <Node Id="PixelShaderStage" Bounds="-59.9344449530708,-23.5833333333333,119.16,25.24" UseManualLocation="True" />
+    <Node Id="Ra" Bounds="-51.6666666666667,-110.555555555556,108.886666666667,25.24" Label="RasterizerStage" UseManualLocation="True" />
+    <Node Id="VertexShaderStage" Bounds="-60.2697646142377,-201.388882751465,129.41,25.24" UseManualLocation="True" />
+    <Node Id="光栅化阶段，主要是将图元内容投影到具体的渲染目标(图片)上去。" Category="Comment" Bounds="154.816101074219,-122.511906464062,248,55.72" Label="光栅化阶段，主要是将图元内容投影到具体的渲染目标(图片)上去。主要内容是剔除(cull)，裁剪(clip)，光栅化(rasterize)。" UseManualLocation="True" />
+    <Node Id="对于在光栅化阶段产生的像素，都对其进行处理(运行着色器代码)。" Category="Comment" Bounds="151.982765197754,-36.7918064644787,248,55.72" Label="对于在光栅化阶段产生的像素，都对其进行处理(运行着色器代码)。同样代码也由自己编写。" UseManualLocation="True" />
+    <Node Id="将输出的内容和渲染目标合并，主要是进行深度测试和混合的阶段。" Category="Comment" Bounds="159.093883090549,50.3171824204102,248,55.72" Label="将输出的内容和渲染目标合并，主要是进行深度测试(depth Test or z-buffer)和混合(blending)的阶段。" UseManualLocation="True" />
+    <Node Id="技术不行，图画的很丑" Bounds="-261.755320169793,-205.654346042034,140,25.24" UseManualLocation="True" />
+    <Node Id="输入装配阶段，主要是输入我们的顶点数据和索引数据，以及图元类型。" Category="Comment" Bounds="146.704986572266,-309.192106464062,248,55.72" Label="输入装配阶段，主要是输入我们要渲染的物体的顶点数据和索引数据，以及图元(primitive)类型。" UseManualLocation="True" />
+    <Node Id="顶点着色器阶段，主要是对输入的顶点进行处理，而着色器代码则是我们自己编写。这样的管线也被称之为可编程式管线。" Category="Comment" Bounds="150.70499420166,-223.472006464062,248,70.96" Label="顶点着色器阶段，主要是对输入的顶点进行处理(运行着色器代码)，而着色器代码则是我们自己编写。这样的管线也被称之为可编程图形渲染管线。" UseManualLocation="True" />
+  </Nodes>
+  <Links>
+    <Link Source="InputAssageStage" Target="VertexShaderStage" Bounds="4.93552618541193,-268.608088378906,1.3474090829224,58.2216148035768" />
+    <Link Source="PixelShaderStage" Target="OutputMergerStage" Bounds="-1.52596039993139,1.65666734695435,0.960955355814332,57.5945840481502" />
+    <Link Source="Ra" Target="PixelShaderStage" Bounds="0.423694283785962,-85.3155583190918,1.89863489405331,52.7380524020677" />
+    <Link Source="VertexShaderStage" Target="Ra" Bounds="3.17140868009771,-176.148882751465,1.03339567012639,56.5948244065172" />
+    <Link Source="光栅化阶段，主要是将图元内容投影到具体的渲染目标(图片)上去。" Target="Ra" Bounds="66.2193613629903,-97.1808705892851,88.5967397112285,1.05390968407029" />
+    <Link Source="对于在光栅化阶段产生的像素，都对其进行处理(运行着色器代码)。" Target="PixelShaderStage" Bounds="68.2253142049868,-10.4591603301806,83.7574509927671,0.615752965507806" />
+    <Link Source="将输出的内容和渲染目标合并，主要是进行深度测试和混合的阶段。" Target="OutputMergerStage" Bounds="75.0495995625906,79.3488737841078,84.0442835279584,0.79414484820856" />
+    <Link Source="输入装配阶段，主要是输入我们的顶点数据和索引数据，以及图元类型。" Target="InputAssageStage" Bounds="86.9833295836585,-281.283274102187,59.7216569886071,0.0235194682116457" />
+    <Link Source="顶点着色器阶段，主要是对输入的顶点进行处理，而着色器代码则是我们自己编写。这样的管线也被称之为可编程式管线。" Target="VertexShaderStage" Bounds="78.1402026101478,-188.55701904196,72.5647915915124,0.208586305971892" />
+  </Links>
+  <Categories>
+    <Category Id="Comment" Label="Comment" Description="Represents a user defined comment on the diagram" CanBeDataDriven="True" IsProviderRoot="False" NavigationActionLabel="Comments" />
+  </Categories>
+  <Properties>
+    <Property Id="Bounds" DataType="System.Windows.Rect" />
+    <Property Id="CanBeDataDriven" Label="CanBeDataDriven" Description="CanBeDataDriven" DataType="System.Boolean" />
+    <Property Id="Expression" DataType="System.String" />
+    <Property Id="GroupLabel" DataType="System.String" />
+    <Property Id="IsEnabled" DataType="System.Boolean" />
+    <Property Id="IsProviderRoot" Label="IsProviderRoot" Description="IsProviderRoot" DataType="System.Boolean" />
+    <Property Id="Label" Label="Label" Description="Displayable label of an Annotatable object" DataType="System.String" />
+    <Property Id="NavigationActionLabel" Label="NavigationActionLabel" Description="NavigationActionLabel" DataType="System.String" />
+    <Property Id="TargetType" DataType="System.Type" />
+    <Property Id="UseManualLocation" DataType="System.Boolean" />
+    <Property Id="Value" DataType="System.String" />
+    <Property Id="ValueLabel" DataType="System.String" />
+  </Properties>
+  <Styles>
+    <Style TargetType="Node" GroupLabel="Comment" ValueLabel="Has comment">
+      <Condition Expression="HasCategory('Comment')" />
+      <Setter Property="Background" Value="#FFFFFACD" />
+      <Setter Property="Stroke" Value="#FFE5C365" />
+      <Setter Property="StrokeThickness" Value="1" />
+      <Setter Property="NodeRadius" Value="2" />
+      <Setter Property="MaxWidth" Value="250" />
+    </Style>
+  </Styles>
+</DirectedGraph>

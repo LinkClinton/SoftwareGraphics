@@ -26,7 +26,6 @@ namespace Application
             unitProperty.PositionTransformed = Vector4.Transform(unitProperty.PositionTransformed, worldMatrix);
             unitProperty.PositionTransformed = Vector4.Transform(unitProperty.PositionTransformed, cameraMatrix);
             unitProperty.PositionTransformed = Vector4.Transform(unitProperty.PositionTransformed, projectMatrix);
-
         }
     }
 }

@@ -13,7 +13,7 @@ namespace Application
 {
     class Program
     {
-        public static Size Size => new Size(800, 600);
+        public static Size Size => new Size(1280, 720);
 
         static void Main(string[] args)
         {

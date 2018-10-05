@@ -84,6 +84,15 @@ namespace SoftwaveGraphics
             return Math.Abs(MathHelper.Cross(triangle[1] - triangle[0], triangle[2] - triangle[0])) * 0.5f;
         }
 
-        
+        public static bool IsLimit(float x, float left, float right)
+        {
+            if (x < left || x > right) return true;
+            return false;
+        }
+
+        public static float Limit(float x, float left,float right)
+        {
+            return Math.Min(Math.Max(x, left), right);
+        }
     }
 }

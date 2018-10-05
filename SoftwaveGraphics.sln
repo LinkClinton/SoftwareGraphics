@@ -7,6 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SoftwaveGraphics", "Softwav
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{5B7DAFAD-B4AC-478A-934C-A6E1D7F9E17B}"
 	ProjectSection(SolutionItems) = preProject
+		GraphicsPipeline.dgml = GraphicsPipeline.dgml
 		readme.md = readme.md
 	EndProjectSection
 EndProject

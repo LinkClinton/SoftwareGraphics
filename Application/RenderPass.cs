@@ -48,14 +48,14 @@ namespace Application
                 1,5,6,1,6,2,4,0,3,4,3,7
             };
 
-            cube = new Cube(5, 5, 5);
+            cube = new Cube(3, 3, 3);
 
             camera.Position = new Vector3(0, 0, 10);
             camera.LookAt = new Vector3(0, 0, 0);
 
             matrix = new object[3];
 
-            matrix[0] = Matrix4x4.CreateRotationY((float)Math.PI * 0);
+            matrix[0] = Matrix4x4.CreateTranslation(new Vector3(0, 0, 0));
             matrix[1] = Matrix4x4.CreateLookAt(camera.Position, camera.LookAt, new Vector3(0, 1, 0));
             matrix[2] = Matrix4x4.CreatePerspectiveFieldOfView((float)Math.PI * 0.55f,
                     Program.Size.Width / (float)Program.Size.Height, 1.0f, 2000.0f);
@@ -70,7 +70,7 @@ namespace Application
 
         public static void Update(float deltaTime)
         {
-            matrix[0] = (Matrix4x4)matrix[0] * Matrix4x4.CreateRotationY((float)Math.PI * deltaTime * 0.20f);
+            matrix[0] = (Matrix4x4)matrix[0] * Matrix4x4.CreateRotationY((float)Math.PI * deltaTime * 0.2f);
         }
 
         public static void Draw(RenderTarget renderTarget)
