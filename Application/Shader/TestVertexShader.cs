@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Numerics;
@@ -19,6 +20,8 @@ namespace Application
             var cameraMatrix = (Matrix4x4)inputData[1];
             var projectMatrix = (Matrix4x4)inputData[2];
 
+            Debug.Assert(node != null, nameof(node) + " != null");
+            
             unitProperty.Color = node.Color;
             unitProperty.Position = node.Position;
             unitProperty.PositionTransformed = new Vector4(node.Position, 1.0f);

@@ -12,45 +12,45 @@ using GalEngine.Extension;
 
 namespace Application
 {
-    class ImageObject : GameObject
+    public class ImageObject : GameObject
     {
-        private GameScene gameScene;
+        private GameScene _gameScene;
 
-        private Transform transform;
-        private ImageShape imageShape;
-        private Bitmap renderBuffer;
+        private Transform _transform;
+        private ImageShape _imageShape;
+        private readonly Bitmap _renderBuffer;
 
-        private RenderTarget renderTarget;
+        private readonly RenderTarget _renderTarget;
         
-        private byte[] bytes;
+        private byte[] _bytes;
 
         public ImageObject(GameScene gameScene)
         {
-            this.gameScene = gameScene;
+            this._gameScene = gameScene;
 
-            this.SetComponent(transform = new Transform());
-            this.SetComponent(imageShape = new ImageShape(gameScene.Resolution, "RenderBuffer"));
+            this.SetComponent(_transform = new Transform());
+            this.SetComponent(_imageShape = new ImageShape(gameScene.Resolution, "RenderBuffer"));
 
-            this.renderBuffer = new Bitmap(gameScene.Resolution);
+            this._renderBuffer = new Bitmap(gameScene.Resolution);
 
-            this.renderTarget = new RenderTarget(gameScene.Resolution.Width, gameScene.Resolution.Height);
+            this._renderTarget = new RenderTarget(gameScene.Resolution.Width, gameScene.Resolution.Height);
             
-            this.bytes = new byte[renderTarget.SizeBytes];
+            this._bytes = new byte[_renderTarget.SizeBytes];
 
-            GameResource.SetBitmap("RenderBuffer", renderBuffer);
+            GameResource.SetBitmap("RenderBuffer", _renderBuffer);
         }
 
         public override void Update(float deltaTime)
         {
             RenderPass.Update(deltaTime);
 
-            renderTarget.Clear();
+            _renderTarget.Clear();
 
             //draw
-            RenderPass.Draw(renderTarget);
+            RenderPass.Draw(_renderTarget);
 
-            renderTarget.CopyTo(ref bytes);
-            renderBuffer.CopyFromMemroy(bytes);
+            _renderTarget.CopyTo(ref _bytes);
+            _renderBuffer.CopyFromMemroy(_bytes);
 
             base.Update(deltaTime);
         }

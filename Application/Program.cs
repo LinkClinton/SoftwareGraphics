@@ -24,6 +24,7 @@ namespace Application
 
             GalEngine.Application.Create("SoftwareGraphics", Size, null);
             GalEngine.Application.RunLoop();
+            
         }
     }
 }
